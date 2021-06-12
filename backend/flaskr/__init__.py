@@ -49,6 +49,14 @@ def create_app(test_config=None):
 
     def filter_questions(previous_questions, questions):
         return [question for question in questions if question['id'] not in previous_questions]
+
+    def get_filtered_questions(previous_questions):
+        questions = Question.query.all()
+        questions = [question.format()
+                        for question in questions]
+        questions = filter_questions(
+            previous_questions, questions)
+        return questions
     #========================================#
     #                                        #
     #   [GET] /categories - retrive all      #
@@ -60,8 +68,6 @@ def create_app(test_config=None):
     @cross_origin()
     def get_all_catgories():
         categories = Category.query.all()
-        if len(categories) == 0:
-            abort(404)
         formatted_categories = {}
         for category in categories:
             formatted_categories[str(category.format()['id'])] = category.format()[
@@ -178,7 +184,8 @@ def create_app(test_config=None):
     def get_all_questions():
         selection = Question.query.all()
         current_questions = paginate_questions(request, selection)
-        if len(current_questions) == 0:
+        page = request.args.get('page', 1, type=int)
+        if page != 1 and len(current_questions) == 0:
             abort(404)
         categories = Category.query.all()
         formatted_categories = {}
@@ -310,46 +317,53 @@ def create_app(test_config=None):
     @app.route('/quizzes', methods=['POST'])
     @cross_origin()
     def play_trivia_quizz_game():
+
         data = request.get_json()
         print(data)
-        try:
-            if data:
-                previous_questions = data.get('previous_questions', [])
-                quiz_category = data.get('quiz_category')
-                if int(quiz_category['id']) == 0 or quiz_category['type'] == 'click':
-                    questions = Question.query.all()
-                    questions = [question.format()
-                                for question in questions]
-                    questions = filter_questions(
-                        previous_questions, questions)
-                else:
-                    category = Category.query.get(int(quiz_category['id']))
-                    if category and category != None:
-                        questions = Question.query.filter(
-                            Question.category == category).all()
-                        questions = [question.format()
-                                    for question in questions]
-                        questions = filter_questions(
-                            previous_questions, questions)
+        if data:
+            previous_questions = data.get('previous_questions', [])
+            quiz_category = data.get('quiz_category')
+            if quiz_category:
+                if 'id' in quiz_category:
+                    if str(quiz_category['id']).isdigit():
+                        if int(quiz_category['id']) == 0 or quiz_category['type'] == 'click':
+                            questions = get_filtered_questions(previous_questions)
+                        else:
+                            category = Category.query.get(
+                                int(quiz_category['id']))
+                            if category and category != None:
+                                questions = Question.query.filter(
+                                    Question.category == category).all()
+                                questions = [question.format()
+                                             for question in questions]
+                                questions = filter_questions(
+                                    previous_questions, questions)
+                            else:
+                                abort(400)
                     else:
                         abort(400)
-                if len(questions) > 0:
-                    print(questions)
-                    return jsonify({
-                        "previous_questions": previous_questions,
-                        "quiz_category": quiz_category['id'],
-                        "question": questions[random.randrange(0, len(questions))],
-                        "success": True
-                    })
+
                 else:
-                    return jsonify({
-                        "previous_questions": previous_questions,
-                        "question": None,
-                        "success": True
-                    })
+                    abort(400)
+        
             else:
                 abort(400)
-        except:
+            if len(questions) > 0:
+                print(questions)
+        
+                return jsonify({
+                    "previous_questions": previous_questions,
+                    "quiz_category": 0,
+                    "question": questions[random.randrange(0, len(questions))],
+                    "success": True
+                })
+            else:
+                return jsonify({
+                    "previous_questions": previous_questions,
+                    "question": None,
+                    "success": True
+                })
+        else:
             abort(400)
 
     #====================#

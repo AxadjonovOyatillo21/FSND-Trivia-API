@@ -16,7 +16,7 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgres://{}:{}@localhost:5432/{}".format(
+        self.database_path = "postgresql://{}:{}@localhost:5432/{}".format(
             'postgres', 'pysql', self.database_name)
         setup_db(self.app, self.database_path)
 
@@ -343,6 +343,20 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
 
+    def test_get_quizzes_without_previous(self):
+        category = Category.query.first()
+        category = category.format()
+        request_data = {
+            "previous_category": [0],
+            "quiz_category": {
+                "type": str(category['type']).encode('utf8'),
+                "id": str(category['id']).encode('utf8')
+            }
+        }
+        response = self.client().post('/quizzes', json=request_data)
+        data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
 
 
 # Make the tests conveniently executable
