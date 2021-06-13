@@ -101,7 +101,7 @@ Error are returned as JSON objects in following format:
 * Errors 🐞
     * This endpoint doesn't give any errors
 
-<font size=1> `Get /categories/<category_id>` </font>
+<font size="1"> `Get /categories/<category_id>` </font>
 
 * General
     * Get category by id.
