@@ -74,4 +74,3 @@ Types of error, which API will return:
 |     404    | resource not found   | 
 |     405    | method not allowed   |  
 |     422    | unprocessable entity |
-|___________________________________|
