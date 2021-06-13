@@ -65,7 +65,7 @@ Error are returned as JSON objects in following format:
     "message": <error_message>,
     "success": false
 ```
-Types of error, which API will return:
+## Types of error, which API will return:
 
 -------------------------------------
 | Error code | Error message        |
@@ -74,3 +74,24 @@ Types of error, which API will return:
 |     404    | resource not found   | 
 |     405    | method not allowed   |  
 |     422    | unprocessable entity |
+
+## Endpoints
+## `Get /categories `
+    * General
+        * Get all categories
+    * Example
+        * Request: ` curl http://127.0.0.1:5000/categories `
+        * Response:
+        ```json
+        {
+            "categories": {
+                "1": "science",
+                "2": "geography",
+                "3": "sports",
+                "4": "history",
+                "5": "entertainment"
+            },
+            "success": true,
+            "total_categories": 5
+        }
+        ```
