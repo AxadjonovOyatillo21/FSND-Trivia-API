@@ -77,7 +77,7 @@ Error are returned as JSON objects in following format:
 
 ## Endpoints
 
-## `Get /categories `
+`Get /categories `
 
 * ### General
     * Get all categories
@@ -101,7 +101,7 @@ Error are returned as JSON objects in following format:
 * Errors 🐞
     * This endpoint doesn't give any errors
 
-## `Get /categories/<category_id>`
+`Get /categories/<category_id>`
 
 * General
     * Get category by id.
