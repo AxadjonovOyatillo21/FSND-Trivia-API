@@ -98,3 +98,5 @@ Error are returned as JSON objects in following format:
         "total_categories": 5
     }
     ```
+* Errors 🐞
+    * This endpoint doesn't give any errors
