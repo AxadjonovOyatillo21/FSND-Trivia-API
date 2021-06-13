@@ -85,19 +85,19 @@ Error are returned as JSON objects in following format:
 * ### Example
     * Request: ` curl http://127.0.0.1:5000/categories `
     * Response:
-    ```json
-    {
-        "categories": {
-            "1": "science",
-            "2": "geography",
-            "3": "sports",
-            "4": "history",
-            "5": "entertainment"
-        },
-        "success": true,
-        "total_categories": 5
-    }
-    ```
+        ```json
+        {
+            "categories": {
+                "1": "science",
+                "2": "geography",
+                "3": "sports",
+                "4": "history",
+                "5": "entertainment"
+            },
+            "success": true,
+            "total_categories": 5
+        }
+        ```
 * ### Errors 🐞
     * This endpoint doesn't give any errors
 
@@ -111,33 +111,52 @@ Error are returned as JSON objects in following format:
     |   | Parameter | Type   | Description      |
     |---|-----------|--------|------------------|
     | 1 | type      | String | Name of category |
-    |   |           |        |                  |
-    
+
+
 * ### Example
     * Request:
         ```bash
+        curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+                "type": "Music"
+            }' http://127.0.0.1:5000/categories
+        ```
+    * Response:
+        ```json
+            {
+                "categories": {
+                    "1": "science",
+                    "2": "geography",
+                    "3": "sports",
+                    "4": "history",
+                    "5": "entertainment",
+                    "6": "Music"
+                },
+                "success": true,
+                "total_categories": 6
+            }   
+        ```
+* ### Errors 🐞
+    * API raises error * 400 * if ` type ` parameter is empty or request body is empty
+    * Example:
+        * Request: 
+            ```bash
             curl -X POST \
                 -H "Content-Type: application/json" \
                 -d '{
-                    "type": "Music"
+                    "type": ""
                 }' http://127.0.0.1:5000/categories
-        ```
-    * Response:
-    ```json
-        {
-            "categories": {
-                "1": "science",
-                "2": "geography",
-                "3": "sports",
-                "4": "history",
-                "5": "entertainment",
-                "6": "Music"
-            },
-            "success": true,
-            "total_categories": 6
-        }   
-    ```
-
+            ``
+        * Response:
+            ```json
+            {
+                "error": 400,
+                "message": "bad request",
+                "success": false
+            }
+            ```
+        * And if length of ` type ` parameter less than 3, API raises this error
 
 
 
@@ -150,25 +169,25 @@ Error are returned as JSON objects in following format:
 * ### Example
     * Request: `curl http://127.0.0.1:5000/categories/1 `
     * Response:
-    ```json
-        {
-            "category_id": 1,
-            "category_type": "science",
-            "success": true,
-            "total_categories": 5
-        }
-    ```
+        ```json
+            {
+                "category_id": 1,
+                "category_type": "science",
+                "success": true,
+                "total_categories": 5
+            }
+        ```
 
 * ### Errors 🐞
-    * Application raises error *404* if category doesn't exists in database
+    * APIraises error *404* if category doesn't exists in database
     * Example:
         * Request: ` curl http://127.0.0.1:5000/categories/101010101010 `
         * Response:
-        ```json
-            {
-                "error": 404,
-                "message": "resource not found",
-                "success": false
-            }
-        ```
+            ```json
+                {
+                    "error": 404,
+                    "message": "resource not found",
+                    "success": false
+                }
+            ```
 

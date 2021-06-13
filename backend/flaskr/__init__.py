@@ -140,9 +140,11 @@ def create_app(test_config=None):
     @cross_origin()
     def add_new_category():
         data = request.get_json()
+        if not data:
+            abort(400)
         new_category = data.get('type')
         print(data)
-        if not new_category:
+        if not new_category or len(new_category) < 3:
             abort(400)
         try:
             category = Category(type=new_category)
