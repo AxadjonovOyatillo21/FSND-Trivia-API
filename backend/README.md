@@ -334,3 +334,6 @@ Error are returned as JSON objects in following format:
             "total_questions": 3
         }       
         ```
+
+* ### Errors 🐞
+    * If not questions, and page not equals to 1, API raises error **404**
