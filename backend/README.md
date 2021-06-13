@@ -527,10 +527,10 @@ Error are returned as JSON objects in following format:
             }
             ```
         * Before request:
-            1. ` question ` parameter was *The Taj Mahal is located in which Indian city?*, it was changed to *"Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?*
-            2. ` answer ` parameter was *Agra*, it was changed to *Maya Angelou*
-            3. ` difficulty ` parameter was *1*, it was changed to *2*
-            4. ` category ` parameter was the category id *2*, it was changed to category id of *History* category *4*
+            1. ` question ` parameter was *The Taj Mahal is located in which Indian city?*, after request it was changed to *"Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?*
+            2. ` answer ` parameter was *Agra*, after request  it was changed to *Maya Angelou*
+            3. ` difficulty ` parameter was *1*, after request  it was changed to *2*
+            4. ` category ` parameter was the category id *2*, after request  it was changed to category id of *History* category *4*
         
 * ### Errors 🐞
     * API raises error **400**:
@@ -565,3 +565,34 @@ Error are returned as JSON objects in following format:
                 "success": false
             }
             ```
+
+<br>
+<br>
+
+## ` DELETE /questions/<question_id> `
+
+* ## General
+    * Delete question with id. ID given in URL parameters
+
+* ## Example
+    * Request: ` curl -X DELETE http://127.0.0.1:5000/questions/4 `
+    * Response:
+        ```json
+        {
+            "deleted_question_id": 4,
+            "success": true
+        }
+        ```
+
+* ### Errors 🐞
+    * If question doesn't exists in database, API returns **404** eror
+    * Request: ` curl -X DELETE http://127.0.0.1:5000/categories/72342324 `
+    * Response:
+        ```json
+        {
+            "error": 400,
+            "message": "bad request",
+            "success": false
+        }
+        ```
+        * And if deleting was unsuccessful, API returns **422** error
