@@ -81,19 +81,19 @@ Error are returned as JSON objects in following format:
 
 * General
     * Get all categories
-    * Example
-        * Request: ` curl http://127.0.0.1:5000/categories `
-        * Response:
-        ```json
-        {
-            "categories": {
-                "1": "science",
-                "2": "geography",
-                "3": "sports",
-                "4": "history",
-                "5": "entertainment"
-            },
-            "success": true,
-            "total_categories": 5
-        }
-        ```
+* Example
+    * Request: ` curl http://127.0.0.1:5000/categories `
+    * Response:
+    ```json
+    {
+        "categories": {
+            "1": "science",
+            "2": "geography",
+            "3": "sports",
+            "4": "history",
+            "5": "entertainment"
+        },
+        "success": true,
+        "total_categories": 5
+    }
+    ```
