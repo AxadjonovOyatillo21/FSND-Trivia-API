@@ -804,6 +804,7 @@ Error are returned as JSON objects in following format:
                 ```       
 
 # Author:
-    * Akhdajonov Oyatillo
+
+* Akhdajonov Oyatillo
 
 Akhadjonov Oyatillo | 2021
