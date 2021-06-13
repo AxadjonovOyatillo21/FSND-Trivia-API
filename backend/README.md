@@ -111,7 +111,8 @@ Error are returned as JSON objects in following format:
     |   | Parameter | Type   | Description      |
     |---|-----------|--------|------------------|
     | 1 | type      | String | Name of category |
-    |___|___________|________|__________________|
+    |   |           |        |                  |
+    
 * ### Example
     * Request:
         ```bash
