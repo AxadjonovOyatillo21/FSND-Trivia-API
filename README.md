@@ -20,9 +20,5 @@ Completing this trivia app will give you the ability to structure plan, implemen
 [Fork](https://help.github.com/en/articles/fork-a-repo) the [project repository](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter) and [Clone](https://help.github.com/en/articles/cloning-a-repository) your forked repository to your machine. Work on the project locally and make sure to push all your changes to the remote repository before submitting the link to your repository in the Classroom.
 >Once you're ready, you can submit your project on the last page.
 
-## About the Stack
-
-We started the full stack application for you. It is designed with some key functional areas:
-
 [Backend](./backend)
 [Frontend](./frontend)
