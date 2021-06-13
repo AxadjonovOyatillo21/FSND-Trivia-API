@@ -341,6 +341,46 @@ Error are returned as JSON objects in following format:
 <br>
 <br>
 
+## ` GET /categories/<category_id>/questions `
+
+* ### General
+    * Get all questions by category id. Category ID given in URL parameters
+
+* ### Example
+    * Request: ` curl http://127.0.0.1:5000/categories/1/questions `
+    * Response:
+        ```json
+        {
+            "current_category": "science",
+            "questions": [
+                {
+                    "answer": "Blood",
+                    "category": "science",
+                    "category_id": 1,
+                    "difficulty": 4,
+                    "id": 1,
+                    "question": "Hematology is a branch of medicine involving the study of what?"
+                }
+            ],
+            "success": true,
+            "total_questions": 8
+        }
+        ```
+* ### Errors 🐞
+    * If category with given id in URL doesn't exists in database, API raises **404** error
+    * Example:
+        * Request: ` curl http://127.0.0.1:5000/categories/21323123/questions `
+        * Response:
+            ```json
+            {
+                "error": 404,
+                "message": "resource not found",
+                "success": false
+            }
+            ```
+<br>
+<br>
+
 ## ` POST /questions `
 
 * ### General
@@ -398,7 +438,7 @@ Error are returned as JSON objects in following format:
             1. ` question` parameter violates required length
             2. ` difficulty ` parameter violates required type
             3. ` category ` parameter not exists in database
-            
+
         * Response:
             ```json
             {
