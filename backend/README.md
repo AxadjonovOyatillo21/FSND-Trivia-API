@@ -435,6 +435,7 @@ Error are returned as JSON objects in following format:
                     "category": "21221223231231"
                 }' http://127.0.0.1:5000/questions
             ``
+            
         * In this request 
             1. ` question` parameter violates required length
             2. ` difficulty ` parameter violates required type
@@ -452,7 +453,7 @@ Error are returned as JSON objects in following format:
 <br>
 <br>
 
-## ` GET /questions/8 `
+## ` GET /questions/<question_id> `
 
 * ### General
     * Get individual question with question id. Question id is given in the URL parameters
@@ -486,3 +487,81 @@ Error are returned as JSON objects in following format:
                 "category": "2" 
             }            
             ``` 
+
+<br>
+<br>
+
+## ` PATCH /questions/<question_id> `
+
+* ### General
+    * Update individual question with question id. Question id is given in the URL parameters
+    * You can update only ` question `, ` answer `, ` difficulty ` or ` category ` parameter of category
+    * You should send request with ` PATCH ` method. Your request should include data about updated parameter of category in JSON format
+    * JSON data should include following parameteres:
+    ----------------------------------------------------------------------------
+    |   | Parameter  | Type   | Description                                    |
+    |---|------------|--------|------------------------------------------------|
+    | 1 | questions  | String | Question of new question                       |
+    | 2 | answer     | String | Answer of question                             |
+    | 3 | difficulty | Number | Difficulty of question(optional), by default 1 |
+    | 4 | category   | Number | Id of category                                 |
+
+* ### Example
+    * Request:
+         ```bash
+        curl -X PATCH \
+            -H "Content-Type: application/json" \
+            -d '{
+                "question": "Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?",
+                "answer": "Maya Angelou",
+                "difficulty": "2",
+                "category": 4
+            }' http://127.0.0.1:5000/questions/6 
+        ```
+
+        * Response:
+            ```json
+            {
+                "success": true,
+                "updated_question_id": 6
+            }
+            ```
+        * Before request:
+            1. ` question ` parameter was *The Taj Mahal is located in which Indian city?*, it was changed to *"Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?*
+            2. ` answer ` parameter was *Agra*, it was changed to *Maya Angelou*
+            3. ` difficulty ` parameter was *1*, it was changed to *2*
+            4. ` category ` parameter was the category id *2*, it was changed to category id of *History* category *4*
+        
+* ### Errors 🐞
+    * API raises error **400**:
+        1. If ` question ` parameter is empty or length less than 5
+        2. If ` difficulty ` parameter is empty, or not a number
+        3. If ` category ` parameter is empty, or not a number or not exists in database
+        4. If request body is empty 
+
+    * Example:
+        * Request: 
+            ```bash
+            curl -X PATCH \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "question": "False",
+                    "answer": "dolor",
+                    "difficulty": "",
+                    "category": "should be number"
+                }' http://127.0.0.1:5000/questions
+            ``
+            
+        * In this request 
+            1. ` question` parameter violates required length
+            2. ` difficulty ` parameter is empty
+            3. ` category ` parameterviolates required type
+
+        * Response:
+            ```json
+            {
+                "error": 400,
+                "message": "bad request",
+                "success": false
+            }
+            ```

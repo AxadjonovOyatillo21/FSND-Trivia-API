@@ -4,7 +4,7 @@ def valid_response(data, parameter, model=None):
     if data:
         if str(parameter) in data:
             if str(data[parameter]).isdigit():
-                if str(parameter) == "category_id":
+                if str(parameter) == "category":
                     try:
                         category = model.query.get(int(data[parameter]))
                         if not category or category == None:

@@ -283,9 +283,9 @@ def create_app(test_config=None):
                     question.answer = data['answer']
                 if valid_response(data, 'difficulty'):
                     question.difficulty = int(data['difficulty'])
-                if valid_response(data, 'category_id', Category):
+                if valid_response(data, 'category', Category):
                     try:
-                        category = Category.query.get(int(data['category_id']))
+                        category = Category.query.get(int(data['category']))
                         if category:
                             question.category = category
                         else:
