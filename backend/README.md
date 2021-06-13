@@ -100,3 +100,34 @@ Error are returned as JSON objects in following format:
     ```
 * Errors 🐞
     * This endpoint doesn't give any errors
+
+## `Get /categories/<category_id>`
+
+* General
+    * Get category by id.
+    * Category id is given in the URL parametres
+
+* Example
+    * Request: `curl http://127.0.0.1:5000/categories/1 `
+    * Response:
+    ```json
+        {
+            "category_id": 1,
+            "category_type": "science",
+            "success": true,
+            "total_categories": 5
+        }
+    ```
+
+* Errors 🐞
+    * Application raises error *404* if category doesn't exists in database
+    * Example:
+        * Request: ` curl http://127.0.0.1:5000/categories/101010101010 `
+        * Response:
+        ```json
+            {
+                "error": 404,
+                "message": "resource not found",
+                "success": false
+            }
+        ```

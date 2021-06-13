@@ -31,14 +31,14 @@ class TriviaTestCase(unittest.TestCase):
         category_id = Category.query.first().id
         self.fresh_question = {
             "question": "WHAT DO YOU DO?",
-            "answer": "I do my homework",
+            "answer": "I do my homework😃",
             "category": category_id,
             "difficulty": 5
         }
 
         self.fresh_question_for_update = {
             "question": "Is trivia funny?",
-            "answer": "Great! Very!",
+            "answer": "Great! Very!😃",
             "difficulty": 1,
             "category": Category.query.all()[randrange(0, len(Category.query.all()))].id
         }
