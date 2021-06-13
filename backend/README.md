@@ -66,9 +66,10 @@ Error are returned as JSON objects in following format:
     "success": false
 ```
 Types of error, which API will return:
+
 -------------------------------------
 | Error code | Error message        |
--------------------------------------
+|------------|----------------------|
 |     400    | bad request          |
 |     404    | resource not found   | 
 |     405    | method not allowed   |  
