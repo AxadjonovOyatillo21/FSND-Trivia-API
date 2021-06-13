@@ -328,6 +328,10 @@ def create_app(test_config=None):
         if data:
             previous_questions = data.get('previous_questions', [])
             quiz_category = data.get('quiz_category')
+            if previous_questions:
+                for question in previous_questions:
+                    if not str(question).isdigit():
+                        abort(400)
             if quiz_category:
                 if 'id' in quiz_category:
                     if str(quiz_category['id']).isdigit():

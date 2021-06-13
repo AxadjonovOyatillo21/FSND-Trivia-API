@@ -596,3 +596,214 @@ Error are returned as JSON objects in following format:
         }
         ```
         * And if deleting was unsuccessful, API returns **422** error
+
+<br>
+<br>
+
+## ` POST /quizzes `
+
+* ## General
+    * Play and enjoy with Trivia quiz game😊
+    * You should send request with ` POST ` method. Your request should include data about ` previous questions ` and ` quiz_category(dict object, which includes type and id of category) ` in JSON format
+    * ` previous_questions ` is optional, if not previous_questions, if previous_questions exixsts, you should give list of id`s of previous_questions. 
+        * Example format:
+            ```json
+            {
+                "previous_questions": [1, 2, 7, 4]
+            }
+            ```
+    * ` quiz_category ` is optional if ` quiz_category ` type is all, but, if ` quiz_category ` exists this parameter is very required!!! ` quiz_category ` is a dict object, which includes typ and id of category. 
+        * Example format:
+            ```json
+            {
+                "quiz_category": {
+                    "type": "science",
+                    "id": 1
+                }
+            }
+            ```
+    * To get all questions you shouldn't give ` previous_questions ` parameter or give ` previous_questions ` with empty array
+    * To play game in all categories, you shouldn't give ` quiz_category ` parameter or give ` quiz_category ` parameter with ` type ` *click*, or ` id ` *0*
+    * JSON data should include following parameteres:
+    -----------------------------------------------------------------------------------------------
+    |   | Parameter              | Type         | Description                                     |
+    |---|------------------------|--------------|-------------------------------------------------|
+    | 1 | previous_questions     | Array        | Array which includes id`s of previous_questions |
+    | 2 | quiz_category          | Dict Object  | Array which includes id`s of previous_questions |
+    * API returns random question which not in previous_questions :)
+    * if in given category not any questions, api returns JSON data in following format:
+        ```json
+        {
+            "previous_questions": [],
+            "question": null,
+            "success": true
+        }
+        ```
+* ## Example
+    * Get with category:
+        * Request:
+            ```bash
+            curl -X POST \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "previous_questions": [1],
+                    "quiz_category": {
+                        "type": "science",
+                        "id": "1"
+                    }
+                }' http://127.0.0.1:5000/quizzes
+            ```
+        * Response:
+            ```json
+            {
+                "previous_questions": [
+                    1
+                ],
+                "question": {
+                    "answer": "Alexander Fleming",
+                    "category": "science",
+                    "category_id": 1,
+                    "difficulty": 3,
+                    "id": 9,
+                    "question": "Who discovered penicillin?"
+                },
+                "quiz_category": 0,
+                "success": true
+            }
+            ```
+    * All categories:
+        * Request:
+            ```bash
+            curl -X POST \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "previous_questions": [1, 9, 7],
+                    "quiz_category": {
+                        "type": "click",
+                        "id": "0"
+                    }
+                }' http://127.0.0.1:5000/quizzes
+            ```
+        * Response:
+            ```json
+            {
+                "previous_questions": [
+                    1,
+                    9,
+                    7
+                ],
+                "question": {
+                    "answer": "Escher",
+                    "category": "art",
+                    "category_id": 2,
+                    "difficulty": 1,
+                    "id": 8,
+                    "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+                },
+                "quiz_category": 0,
+                "success": true
+            }
+            ```
+        OR
+        * Request:
+            ```bash
+            curl -X POST \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "previous_questions": [1, 9]
+                }' http://127.0.0.1:5000/quizzes
+            ```
+        * Response:
+            ```json
+            {
+                "previous_questions": [
+                    1,
+                    9
+                ],
+                "question": {
+                    "answer": "Maya Angelou",
+                    "category": "History",
+                    "category_id": 4,
+                    "difficulty": 2,
+                    "id": 6,
+                    "question": "Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?"
+                },
+                "quiz_category": 0,
+                "success": true
+            }
+            ```
+    
+* ### Errors 🐞
+    * API raises **400** error if:
+        1) If request body is empty
+        2) If in ` quiz_category ` parameter *id* is empty or string, and or doesn't exists in database
+        3) If in ` previous_question ` given not id 
+    * Example:
+        * 1 - category with given id doesn't exists:
+            * Request:
+                ```bash
+                curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                        "previous_questions": [1, 9, 7],
+                        "quiz_category": {
+                            "type": "click",
+                            "id": "123213232311232"
+                        }
+                    }' http://127.0.0.1:5000/quizzes
+                ```
+            * Response:
+                ```json
+                {
+                    "error": 400,
+                    "message": "bad request",
+                    "success": false
+                }
+                ```
+        * 2 - category id violates required type: 
+            * Request:
+                ```bash
+                curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                        "previous_questions": [1, 9, 7],
+                        "quiz_category": {
+                            "type": "click",
+                            "id": "should be number"
+                        }
+                    }' http://127.0.0.1:5000/quizzes
+                ```
+            * Response:
+                ```json
+                {
+                    "error": 400,
+                    "message": "bad request",
+                    "success": false
+                }
+                ```   
+        * 3 - in previous questions array exists string: 
+            * Request:
+                ```bash
+                curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                        "previous_questions": [1, 9, "string"],
+                        "quiz_category": {
+                            "type": "science",
+                            "id": "1"
+                        }
+                    }' http://127.0.0.1:5000/quizzes
+                ```
+            * Response:
+                ```json
+                {
+                    "error": 400,
+                    "message": "bad request",
+                    "success": false
+                }
+                ```       
+
+# Author:
+    * Akhdajonov Oyatillo
+
+Akhadjonov Oyatillo | 2021
