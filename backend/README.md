@@ -258,7 +258,7 @@ Error are returned as JSON objects in following format:
 * ## General
     * Delete category with id. ID given in URL parameters
 
-* ## Example:
+* ## Example
     * Request: ` curl -X DELETE http://127.0.0.1:5000/categories/7 `
     * Response:
         ```json
@@ -281,4 +281,56 @@ Error are returned as JSON objects in following format:
         ```
         * And if deleting was unsuccessful, API returns **422** error
 
+<br>
+<br>
 
+## ` GET /questions `
+
+* ## General
+    * Get all questions
+    * Results are paginated in groups of 8. Include an URL parameter to choose page, starting from 1
+    * If not questions, and page not equals to 1, API raises error **404**
+
+* ## Example
+    * Request: ` curl http://127.0.0.1:5000/questions `
+    * Response:
+        ```json
+        {
+            "categories": {
+                "1": "science",
+                "2": "art",
+                "3": "Geography",
+                "4": "History",
+                "5": "Entertainment",
+                "6": "Sports"
+            },
+            "questions": [
+                {
+                    "answer": "Blood",
+                    "category": "science",
+                    "category_id": 1,
+                    "difficulty": 4,
+                    "id": 1,
+                    "question": "Hematology is a branch of medicine involving the study of what?"
+                },
+                {
+                    "answer": "The Palace of Versailles",
+                    "category": "Geography",
+                    "category_id": 3,
+                    "difficulty": 3,
+                    "id": 2,
+                    "question": "In which royal palace would you find the Hall of Mirrors?"
+                },
+                {
+                    "answer": "George Washington Carver",
+                    "category": "History",
+                    "category_id": 4,
+                    "difficulty": 2,
+                    "id": 3,
+                    "question": "Who invented Peanut Butter?"
+                }
+            ],
+            "success": true,
+            "total_questions": 3
+        }       
+        ```
