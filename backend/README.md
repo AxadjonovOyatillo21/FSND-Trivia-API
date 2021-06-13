@@ -195,7 +195,7 @@ Error are returned as JSON objects in following format:
 ## ` PATCH /categories/<category_id> `
 
 * ## General
-    * Update category
+    * Update category with id. Id given in URL parameteres
     * You can update only ` type ` parameter of category
     * You should send request with ` PATCH ` method. Your request should include data about updated parameter of category in JSON format
     * JSON data should include following parameteres:
@@ -221,6 +221,8 @@ Error are returned as JSON objects in following format:
             "updated_category_id": 7
         }
         ```
+    * Before request ` type ` of category with id 7 was *Machine Learning*, after request it was changed to *Deep Learning*
+
 * ### Errors 🐞
     * API raises error **400** if ` type ` parameter is empty or request body is empty
     * Example:
@@ -241,3 +243,32 @@ Error are returned as JSON objects in following format:
             }
             ```
         * And if length of ` type ` parameter less than 3, API raises this error
+
+
+## ` DELETE /categories/<category_id> `
+
+* ## General
+    * Delete category with id. ID given in URL parameters
+
+* ## Example:
+    * Request: ` curl -X DELETE http://127.0.0.1:5000/categories/7 `
+    * Response:
+        ```json
+        {
+            "deleted_category_id": 7,
+            "success": true
+        }
+        ```
+
+* ### Errors 🐞
+    * If category doesn't exists in database, API returns **404** eror
+    * Request: ` curl -X DELETE http://127.0.0.1:5000/categories/72342324 `
+    * Response:
+        ```json
+        {
+            "error": 400,
+            "message": "bad request",
+            "success": false
+        }
+        ```
+        * And if deleting was unsuccessful, API returns **422** error
