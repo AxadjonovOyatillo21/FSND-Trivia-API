@@ -378,6 +378,7 @@ Error are returned as JSON objects in following format:
                 "success": false
             }
             ```
+
 <br>
 <br>
 
@@ -447,4 +448,41 @@ Error are returned as JSON objects in following format:
                 "success": false
             }
             ```
-        
+
+<br>
+<br>
+
+## ` GET /questions/8 `
+
+* ### General
+    * Get individual question with question id. Question id is given in the URL parameters
+
+* ### Example
+    * Request: ` http://127.0.0.1:5000/questions/8 `
+    * Response:
+        ```json
+        {
+            "answer": "Escher",
+            "category": "art",
+            "category_id": 2,
+            "difficulty": 1,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?",
+            "question_id": 8,
+            "success": true,
+            "total_questions": 8
+        }
+        ```
+
+* ### Errors 🐞
+    * If question with given id in URL doesn't exists in database, API raises **404** error
+    * Example:
+        * Request: ` http://127.0.0.1:5000/questions/1111112222 `
+        * Response:
+            ```json
+            {
+                "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?",
+                "answer": "Escher",
+                "difficulty": "1",
+                "category": "2" 
+            }            
+            ``` 
