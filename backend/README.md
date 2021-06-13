@@ -79,9 +79,10 @@ Error are returned as JSON objects in following format:
 
 ## `Get /categories `
 
-* General
+* ### General
     * Get all categories
-* Example
+
+* ### Example
     * Request: ` curl http://127.0.0.1:5000/categories `
     * Response:
     ```json
