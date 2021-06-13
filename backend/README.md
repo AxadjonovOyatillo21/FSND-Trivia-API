@@ -337,3 +337,74 @@ Error are returned as JSON objects in following format:
 
 * ### Errors 🐞
     * If not questions, and page not equals to 1, API raises error **404**
+
+<br>
+<br>
+
+## ` POST /questions `
+
+* ### General
+    * Add new question
+    * You should send request with ` POST ` method. Your request should include data about new question in JSON format
+    * JSON data should include following parameteres:
+    ----------------------------------------------------------------------------
+    |   | Parameter  | Type   | Description                                    |
+    |---|------------|--------|------------------------------------------------|
+    | 1 | questions  | String | Question of new question                       |
+    | 2 | answer     | String | Answer of question                             |
+    | 3 | difficulty | Number | Difficulty of question(optional), by default 1 |
+    | 4 | category   | Number | Id of category                                 |
+
+
+* ### Example
+    * Request:
+        ```bash
+        curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+                "question": "The Taj Mahal is located in which Indian city?",
+                "answer": "Agra",
+                "difficulty": "2",
+                "category": "3"
+            }' http://127.0.0.1:5000/questions
+        ```
+    * Response:
+        ```json
+        {
+            "created": 4,
+            "success": true
+        }
+        ```
+* ### Errors 🐞
+    * API raises error **400**:
+        1. If ` question ` parameter is empty or length less than 5
+        2. If ` difficulty ` parameter is empty, or not a number
+        3. If ` category ` parameter is empty, or not a number or not exists in database
+        4. If request body is empty 
+
+    * Example:
+        * Request: 
+            ```bash
+            curl -X POST \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "question": "Lorem",
+                    "answer": "ipsum",
+                    "difficulty": "should be number",
+                    "category": "21221223231231"
+                }' http://127.0.0.1:5000/questions
+            ``
+        * In this request 
+            1. ` question` parameter violates required length
+            2. ` difficulty ` parameter violates required type
+            3. ` category ` parameter not exists in database
+            
+        * Response:
+            ```json
+            {
+                "error": 400,
+                "message": "bad request",
+                "success": false
+            }
+            ```
+        

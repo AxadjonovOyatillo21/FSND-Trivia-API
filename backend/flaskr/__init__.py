@@ -211,6 +211,8 @@ def create_app(test_config=None):
     @cross_origin()
     def create_new_question():
         data = request.get_json()
+        if not data:
+            abort(400)
         new_question = data.get('question')
         new_answer = data.get('answer')
         parent_category = data.get('category')
@@ -230,7 +232,7 @@ def create_app(test_config=None):
             else:
                 category_id = int(parent_category)
                 category_parent = Category.query.get(category_id)
-                if len(new_question) < 5 or category_parent is None:
+                if len(new_question) <= 5 or category_parent is None:
                     abort(400)
                 create_question = Question(question=new_question, answer=new_answer,
                                            category=category_parent, difficulty=new_difficulty)
