@@ -16,7 +16,7 @@
      createdb trivia
 ```
 
-## Run app
+## Run application
 * Windows using Git Bash:
     ```bash
         cd backend
