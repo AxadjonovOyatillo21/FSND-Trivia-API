@@ -77,7 +77,7 @@ Error are returned as JSON objects in following format:
 
 ## Endpoints
 
-`Get /categories `
+## `Get /categories `
 
 * ### General
     * Get all categories
@@ -98,16 +98,41 @@ Error are returned as JSON objects in following format:
         "total_categories": 5
     }
     ```
-* Errors 🐞
+* ### Errors 🐞
     * This endpoint doesn't give any errors
 
-<font size="1"> `Get /categories/<category_id>` </font>
+## ` POST /categories `
 
-* General
+* ### General
+    * Add new category
+    * You should send request with ` POST ` method. Your request should include data about new category in JSON format
+    * JSON data should include following parameteres:
+    ---------------------------------------------
+    |   | Parameter | Type   | Description      |
+    |---|-----------|--------|------------------|
+    | 1 | type      | String | Name of category |
+    |___________________________________________|
+* ### Example
+    * Request:
+        ```bash
+            curl -X POST \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "type": "Music"
+                }' http://127.0.0.1:5000/categories
+        ```
+
+
+
+
+
+## `Get /categories/<category_id>`
+
+* ### General
     * Get category by id.
     * Category id is given in the URL parametres
 
-* Example
+* ### Example
     * Request: `curl http://127.0.0.1:5000/categories/1 `
     * Response:
     ```json
@@ -119,7 +144,7 @@ Error are returned as JSON objects in following format:
         }
     ```
 
-* Errors 🐞
+* ### Errors 🐞
     * Application raises error *404* if category doesn't exists in database
     * Example:
         * Request: ` curl http://127.0.0.1:5000/categories/101010101010 `
@@ -131,3 +156,4 @@ Error are returned as JSON objects in following format:
                 "success": false
             }
         ```
+
