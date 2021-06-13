@@ -101,6 +101,9 @@ Error are returned as JSON objects in following format:
 * ### Errors 🐞
     * This endpoint doesn't give any errors
 
+<br>
+<br>
+
 ## ` POST /categories `
 
 * ### General
@@ -158,7 +161,8 @@ Error are returned as JSON objects in following format:
             ```
         * And if length of ` type ` parameter less than 3, API raises this error
 
-
+<br>
+<br>
 
 ## `Get /categories/<category_id>`
 
@@ -191,6 +195,8 @@ Error are returned as JSON objects in following format:
                 }
             ```
 
+<br>
+<br>
 
 ## ` PATCH /categories/<category_id> `
 
@@ -244,6 +250,8 @@ Error are returned as JSON objects in following format:
             ```
         * And if length of ` type ` parameter less than 3, API raises this error
 
+<br>
+<br>
 
 ## ` DELETE /categories/<category_id> `
 
@@ -272,3 +280,5 @@ Error are returned as JSON objects in following format:
         }
         ```
         * And if deleting was unsuccessful, API returns **422** error
+
+
