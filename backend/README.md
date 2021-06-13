@@ -76,9 +76,11 @@ Error are returned as JSON objects in following format:
 |     422    | unprocessable entity |
 
 ## Endpoints
+
 ## `Get /categories `
-    * General
-        * Get all categories
+
+* General
+    * Get all categories
     * Example
         * Request: ` curl http://127.0.0.1:5000/categories `
         * Response:
