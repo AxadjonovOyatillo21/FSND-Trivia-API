@@ -31,14 +31,14 @@ class TriviaTestCase(unittest.TestCase):
         category_id = Category.query.first().id
         self.fresh_question = {
             "question": "WHAT DO YOU DO?",
-            "answer": "I do my homework😃",
+            "answer": "I do my homework",
             "category": category_id,
             "difficulty": 5
         }
 
         self.fresh_question_for_update = {
             "question": "Is trivia funny?",
-            "answer": "Great😃! Very!",
+            "answer": "Great! Very!",
             "difficulty": 1,
             "category": Category.query.all()[randrange(0, len(Category.query.all()))].id
         }
@@ -87,6 +87,23 @@ class TriviaTestCase(unittest.TestCase):
         """ Our "bad" category data for updating """
         self.update_category_bad_data = {
             "type": ""
+        }
+        category = Category.query.first()
+        questions = Question.query.filter_by(category=category).all()
+        self.get_quiz_with_previous = {
+            "previous_questions": [2, 3, 5],
+            "quiz_category": {
+                "type": Category.query.first().type,
+                "id": category.id
+            }
+        }
+
+        self.get_quiz_without_previous = {
+            "previous_questions": [],
+            "quiz_category": {
+                "type": "lorem",
+                "id": Category.query.first().id
+            }
         }
 
     def tearDown(self):
@@ -256,7 +273,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
         self.assertFalse(data['success'])
 
-
     def test_create_new_question(self):
         response = self.client().post('/questions', json=self.fresh_question)
 
@@ -300,7 +316,8 @@ class TriviaTestCase(unittest.TestCase):
     def test_update_question(self):
         question = Question.query.first()
         print(question)
-        response = self.client().patch(f'/questions/{question.id}', json=self.fresh_question_for_update)
+        response = self.client().patch(
+            f'/questions/{question.id}', json=self.fresh_question_for_update)
 
         data = json.loads(response.data)
         print(question)
@@ -310,7 +327,8 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_update_question_failed(self):
         question = Question.query.first()
-        response = self.client().patch(f'/questions/{question.id}', json=self.bad_question_for_update)
+        response = self.client().patch(
+            f'/questions/{question.id}', json=self.bad_question_for_update)
 
         data = json.loads(response.data)
 
@@ -320,7 +338,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
 
     def test_update_question_failed_for_404_error(self):
-        response = self.client().patch(f'/questions/1221123232331231324234', json=self.bad_question_for_update)
+        response = self.client().patch(f'/questions/1221123232331231324234',
+                                       json=self.bad_question_for_update)
 
         data = json.loads(response.data)
 
@@ -329,34 +348,44 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
         self.assertFalse(data['success'])
 
-    def test_get_quizzes(self):
+    def test_get_quizzes_with_categpry_id(self):
         category = Category.query.first()
-        request_data = {
-            "previous_questions": [1, 2],
-            "quiz_category": {
-                "type": category.type,
-                "id": category.id
-            }
-        }
-        response = self.client().post('/quizzes', json=request_data)
+
+        response = self.client().post('/quizzes', json=self.get_quiz_with_previous)
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
 
     def test_get_quizzes_without_previous(self):
         category = Category.query.first()
-        category = category.format()
+        response = self.client().post('/quizzes', json=self.get_quiz_without_previous)
+        data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_get_quizzes_with_bad_category_id(self):
         request_data = {
-            "previous_category": [0],
+            "previous_questions": [],
             "quiz_category": {
-                "type": str(category['type']).encode('utf8'),
-                "id": str(category['id']).encode('utf8')
+                "type": "badbady",
+                "id": 212123123412312123123231
             }
         }
         response = self.client().post('/quizzes', json=request_data)
         data = json.loads(response.data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['success'], True)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'bad request')
+        self.assertFalse(data['success'])
+
+    def test_get_quizzes_for_400_error(self):
+        response = self.client().post('/quizzes', json={})
+        data = json.loads(response.data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'bad request')
+        self.assertFalse(data['success'])
+
 
 
 # Make the tests conveniently executable

@@ -320,15 +320,25 @@ def create_app(test_config=None):
 
         data = request.get_json()
         print(data)
+        check = False
         if data:
             previous_questions = data.get('previous_questions', [])
             quiz_category = data.get('quiz_category')
             if quiz_category:
                 if 'id' in quiz_category:
                     if str(quiz_category['id']).isdigit():
-                        if int(quiz_category['id']) == 0 or quiz_category['type'] == 'click':
-                            questions = get_filtered_questions(previous_questions)
+                        if 'type' in quiz_category:
+                            if int(quiz_category['id']) == 0 or quiz_category['type'] == 'click':
+                                questions = get_filtered_questions(
+                                    previous_questions)
+                                check = True
                         else:
+                            if int(quiz_category['id']) == 0:
+                                questions = get_filtered_questions(
+                                    previous_questions)
+                                check = True
+                        if check != True:
+
                             category = Category.query.get(
                                 int(quiz_category['id']))
                             if category and category != None:
@@ -347,7 +357,7 @@ def create_app(test_config=None):
                     abort(400)
         
             else:
-                abort(400)
+                questions = get_filtered_questions(previous_questions)
             if len(questions) > 0:
                 print(questions)
         
