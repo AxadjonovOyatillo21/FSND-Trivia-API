@@ -111,7 +111,7 @@ Error are returned as JSON objects in following format:
     |   | Parameter | Type   | Description      |
     |---|-----------|--------|------------------|
     | 1 | type      | String | Name of category |
-    |___________________________________________|
+    |___|___________|________|__________________|
 * ### Example
     * Request:
         ```bash
@@ -121,7 +121,21 @@ Error are returned as JSON objects in following format:
                     "type": "Music"
                 }' http://127.0.0.1:5000/categories
         ```
-
+    * Response:
+    ```json
+        {
+            "categories": {
+                "1": "science",
+                "2": "geography",
+                "3": "sports",
+                "4": "history",
+                "5": "entertainment",
+                "6": "Music"
+            },
+            "success": true,
+            "total_categories": 6
+        }   
+    ```
 
 
 
