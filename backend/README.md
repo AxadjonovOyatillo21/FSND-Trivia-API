@@ -138,7 +138,7 @@ Error are returned as JSON objects in following format:
             }   
         ```
 * ### Errors 🐞
-    * API raises error * 400 * if ` type ` parameter is empty or request body is empty
+    * API raises error **400** if ` type ` parameter is empty or request body is empty
     * Example:
         * Request: 
             ```bash
@@ -179,7 +179,7 @@ Error are returned as JSON objects in following format:
         ```
 
 * ### Errors 🐞
-    * APIraises error *404* if category doesn't exists in database
+    * API raises error **404** if category doesn't exists in database
     * Example:
         * Request: ` curl http://127.0.0.1:5000/categories/101010101010 `
         * Response:
@@ -191,3 +191,53 @@ Error are returned as JSON objects in following format:
                 }
             ```
 
+
+## ` PATCH /categories/<category_id> `
+
+* ## General
+    * Update category
+    * You can update only ` type ` parameter of category
+    * You should send request with ` PATCH ` method. Your request should include data about updated parameter of category in JSON format
+    * JSON data should include following parameteres:
+    ---------------------------------------------
+    |   | Parameter | Type   | Description      |
+    |---|-----------|--------|------------------|
+    | 1 | type      | String | Name of category |
+
+* ## Example
+    * Request:
+
+            ```bash
+            curl -X PATCH \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "type": "Deep Learning"
+                }' http://127.0.0.1:5000/categories
+            ``
+    * Response:
+        ```json
+        {
+            "success": true,
+            "updated_category_id": 7
+        }
+        ```
+* ### Errors 🐞
+    * API raises error **400** if ` type ` parameter is empty or request body is empty
+    * Example:
+        * Request: 
+            ```bash
+            curl -X PATCH \
+                -H "Content-Type: application/json" \
+                -d '{
+                    "type": ""
+                }' http://127.0.0.1:5000/categories/7
+            ``
+        * Response:
+            ```json
+            {
+                "error": 400,
+                "message": "bad request",
+                "success": false
+            }
+            ```
+        * And if length of ` type ` parameter less than 3, API raises this error
