@@ -418,10 +418,10 @@ Error are returned as JSON objects in following format:
         ```
 * ### Errors 🐞
     * API raises error **400**:
-        1. If ` question ` parameter is empty or length less than 5
-        2. If ` difficulty ` parameter is empty, or not a number
-        3. If ` category ` parameter is empty, or not a number or not exists in database
-        4. If request body is empty 
+        1) If ` question ` parameter is empty or length less than 5
+        2) If ` difficulty ` parameter is empty, or not a number
+        3) If ` category ` parameter is empty, or not a number or not exists in database
+        4) If request body is empty 
 
     * Example:
         * Request: 
@@ -437,9 +437,9 @@ Error are returned as JSON objects in following format:
             ``
             
         * In this request 
-            1. ` question` parameter violates required length
-            2. ` difficulty ` parameter violates required type
-            3. ` category ` parameter not exists in database
+            1) ` question` parameter violates required length
+            2) ` difficulty ` parameter violates required type
+            3) ` category ` parameter not exists in database
 
         * Response:
             ```json
@@ -527,17 +527,17 @@ Error are returned as JSON objects in following format:
             }
             ```
         * Before request:
-            1. ` question ` parameter was *The Taj Mahal is located in which Indian city?*, after request it was changed to *"Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?*
-            2. ` answer ` parameter was *Agra*, after request  it was changed to *Maya Angelou*
-            3. ` difficulty ` parameter was *1*, after request  it was changed to *2*
-            4. ` category ` parameter was the category id *2*, after request  it was changed to category id of *History* category *4*
+            1) ` question ` parameter was *The Taj Mahal is located in which Indian city?*, after request it was changed to *"Whose autobiography is entitled 'I Know Why the Caged Bir Sings'?*
+            2) ` answer ` parameter was *Agra*, after request  it was changed to *Maya Angelou*
+            3) ` difficulty ` parameter was *1*, after request  it was changed to *2*
+            4) ` category ` parameter was the category id *2*, after request  it was changed to category id of *History* category *4*
         
 * ### Errors 🐞
     * API raises error **400**:
-        1. If ` question ` parameter is empty or length less than 5
-        2. If ` difficulty ` parameter is empty, or not a number
-        3. If ` category ` parameter is empty, or not a number or not exists in database
-        4. If request body is empty 
+        1) If ` question ` parameter is empty or length less than 5
+        2) If ` difficulty ` parameter is empty, or not a number
+        3) If ` category ` parameter is empty, or not a number or not exists in database
+        4) If request body is empty 
 
     * Example:
         * Request: 
@@ -553,9 +553,9 @@ Error are returned as JSON objects in following format:
             ``
             
         * In this request 
-            1. ` question` parameter violates required length
-            2. ` difficulty ` parameter is empty
-            3. ` category ` parameterviolates required type
+            1) ` question` parameter violates required length
+            2) ` difficulty ` parameter is empty
+            3) ` category ` parameterviolates required type
 
         * Response:
             ```json
@@ -624,6 +624,7 @@ Error are returned as JSON objects in following format:
             ```
     * To get all questions you shouldn't give ` previous_questions ` parameter or give ` previous_questions ` with empty array
     * To play game in all categories, you shouldn't give ` quiz_category ` parameter or give ` quiz_category ` parameter with ` type ` *click*, or ` id ` *0*
+    * Warning: if ` quiz_category ` parameter exists, you should give ` id ` in ` quiz_category `, to get play in all categories give ` id ` equal to zero
     * JSON data should include following parameteres:
     -----------------------------------------------------------------------------------------------
     |   | Parameter              | Type         | Description                                     |
@@ -803,7 +804,7 @@ Error are returned as JSON objects in following format:
                 }
                 ```       
 
-# Author:
+## Author:
 
 * Akhdajonov Oyatillo
 

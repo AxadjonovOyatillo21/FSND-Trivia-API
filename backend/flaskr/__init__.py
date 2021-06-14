@@ -53,7 +53,7 @@ def create_app(test_config=None):
     def get_filtered_questions(previous_questions):
         questions = Question.query.all()
         questions = [question.format()
-                        for question in questions]
+                     for question in questions]
         questions = filter_questions(
             previous_questions, questions)
         return questions
@@ -321,57 +321,41 @@ def create_app(test_config=None):
     @app.route('/quizzes', methods=['POST'])
     @cross_origin()
     def play_trivia_quizz_game():
-
         data = request.get_json()
-        print(data)
-        check = False
         if data:
             previous_questions = data.get('previous_questions', [])
-            quiz_category = data.get('quiz_category')
             if previous_questions:
-                for question in previous_questions:
-                    if not str(question).isdigit():
+                for question_id in previous_questions:
+                    if not str(question_id).isdigit():
                         abort(400)
+            quiz_category = data.get('quiz_category', {})
             if quiz_category:
                 if 'id' in quiz_category:
-                    if str(quiz_category['id']).isdigit():
-                        if 'type' in quiz_category:
-                            if int(quiz_category['id']) == 0 or quiz_category['type'] == 'click':
-                                questions = get_filtered_questions(
-                                    previous_questions)
-                                check = True
-                        else:
-                            if int(quiz_category['id']) == 0:
-                                questions = get_filtered_questions(
-                                    previous_questions)
-                                check = True
-                        if check != True:
-
-                            category = Category.query.get(
-                                int(quiz_category['id']))
-                            if category and category != None:
-                                questions = Question.query.filter(
-                                    Question.category == category).all()
-                                questions = [question.format()
-                                             for question in questions]
-                                questions = filter_questions(
-                                    previous_questions, questions)
-                            else:
-                                abort(400)
-                    else:
+                    if not str(quiz_category['id']).isdigit():
                         abort(400)
-
                 else:
                     abort(400)
-        
+            if not quiz_category or int(quiz_category['id']) == 0:
+                questions = Question.query.all()
+                questions = [question.format()
+                             for question in questions]
+                questions = filter_questions(
+                    previous_questions, questions)
             else:
-                questions = get_filtered_questions(previous_questions)
+                category = Category.query.get(int(quiz_category['id']))
+                if category and category != None:
+                    questions = Question.query.filter(
+                        Question.category == category).all()
+                    questions = [question.format()
+                                 for question in questions]
+                    questions = filter_questions(
+                        previous_questions, questions)
+                else:
+                    abort(400)
             if len(questions) > 0:
-                print(questions)
-        
                 return jsonify({
                     "previous_questions": previous_questions,
-                    "quiz_category": 0,
+                    "quiz_category": quiz_category,
                     "question": questions[random.randrange(0, len(questions))],
                     "success": True
                 })
@@ -381,9 +365,9 @@ def create_app(test_config=None):
                     "question": None,
                     "success": True
                 })
+
         else:
             abort(400)
-
     #====================#
     #                    #
     #   ErrorHandlers    #
@@ -444,5 +428,20 @@ def create_app(test_config=None):
             'error': 422,
             'message': 'unprocessable entity'
         }), 422
+
+    #====================#
+    #                    #
+    #   [500] - internal #
+    #   server error     #
+    #                    #
+    #====================#
+
+    @app.errorhandler(500)
+    def resource_not_found(e):
+        return jsonify({
+            'success': False,
+            'error': 500,
+            'message': 'internal server error'
+        }), 500
 
     return app
