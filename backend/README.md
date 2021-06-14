@@ -10,7 +10,7 @@
 | database type | database name |
 |---------------|---------------|
 | Postgresql    | trivia        |
-|---------------|---------------|
+
 * To create database run following command:
 ```bash
      createdb trivia
