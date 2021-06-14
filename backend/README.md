@@ -174,12 +174,12 @@ Error are returned as JSON objects in following format:
     * Request: `curl http://127.0.0.1:5000/categories/1 `
     * Response:
         ```json
-            {
-                "category_id": 1,
-                "category_type": "science",
-                "success": true,
-                "total_categories": 5
-            }
+        {
+            "category_id": 1,
+            "category_type": "science",
+            "success": true,
+            "total_categories": 5
+        }
         ```
 
 * ### Errors 🐞
@@ -188,11 +188,11 @@ Error are returned as JSON objects in following format:
         * Request: ` curl http://127.0.0.1:5000/categories/101010101010 `
         * Response:
             ```json
-                {
-                    "error": 404,
-                    "message": "resource not found",
-                    "success": false
-                }
+            {
+                "error": 404,
+                "message": "resource not found",
+                "success": false
+            }
             ```
 
 <br>
@@ -212,14 +212,13 @@ Error are returned as JSON objects in following format:
 
 * ## Example
     * Request:
-
-            ```bash
-            curl -X PATCH \
-                -H "Content-Type: application/json" \
-                -d '{
-                    "type": "Deep Learning"
-                }' http://127.0.0.1:5000/categories
-            ``
+        ```bash
+        curl -X PATCH \
+            -H "Content-Type: application/json" \
+            -d '{
+                "type": "Deep Learning"
+            }' http://127.0.0.1:5000/categories
+        ``
     * Response:
         ```json
         {
