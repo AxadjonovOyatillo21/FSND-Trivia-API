@@ -58,14 +58,15 @@ To run tests, run the followinf commands:
 
 * In documentation is used CURL to send requests, another most popular tool to send requests and test API is Postman.
 
-## Error Handling
+## Errors Handling
 Error are returned as JSON objects in following format:
 ```json
     "error": <error_code>,
     "message": <error_message>,
     "success": false
 ```
-## Types of error, which API will return:
+## Types of 
+#, which API will return:
 
 -------------------------------------
 | Error code | Error message        |
