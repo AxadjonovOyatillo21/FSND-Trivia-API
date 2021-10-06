@@ -380,7 +380,7 @@ def create_app(test_config=None):
     #====================#
 
     @app.errorhandler(400)
-    def resource_not_found(e):
+    def bad_request(e):
         return jsonify({
             'success': False,
             'error': 400,
@@ -408,7 +408,7 @@ def create_app(test_config=None):
     #====================#
 
     @app.errorhandler(405)
-    def resource_not_found(e):
+    def method_not_allowed(e):
         return jsonify({
             'success': False,
             'error': 405,
@@ -422,7 +422,7 @@ def create_app(test_config=None):
     #====================#
 
     @app.errorhandler(422)
-    def resource_not_found(e):
+    def unprocessable_entity(e):
         return jsonify({
             'success': False,
             'error': 422,
@@ -437,7 +437,7 @@ def create_app(test_config=None):
     #====================#
 
     @app.errorhandler(500)
-    def resource_not_found(e):
+    def internal_server_error(e):
         return jsonify({
             'success': False,
             'error': 500,
